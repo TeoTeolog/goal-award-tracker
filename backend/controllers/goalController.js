@@ -4,7 +4,7 @@ const Goal = require("../models/goalModel");
 
 //@route GET api/goals
 const getGoals = asyncHandler(async (req, res) => {
-  const goals = await Goal.find();
+  const goals = await Goal.find({ user: req.user.id });
   res.status(200).json(goals);
 });
 
@@ -17,16 +17,15 @@ const setGoal = asyncHandler(async (req, res) => {
 
   const goal = await Goal.create({
     text: req.body.text,
+    user: req.user.id,
   });
   res.status(200).json(goal);
 });
 
 //@route PUT api/goals/:id
 const updateGoal = asyncHandler(async (req, res) => {
-  const goal = await Goal.findById(req.params.id);
+  const goal = await Goal.findById(req.params.id).select({ user: req.user.id });
   //   const goal = await Goal.find({ id: req.params.id }); //jopa govna
-
-  console.log(goal);
 
   if (!goal) {
     res.status(400);
@@ -41,9 +40,7 @@ const updateGoal = asyncHandler(async (req, res) => {
 
 //@route DELETE api/goals/:id
 const deleteGoal = asyncHandler(async (req, res) => {
-  const goal = await Goal.findById(req.params.id);
-
-  console.log(goal);
+  const goal = await Goal.findById(req.params.id).select({ user: req.user.id });
 
   if (!goal) {
     res.status(400);

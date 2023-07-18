@@ -40,6 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
     _id: newUser.id,
     name: newUser.name,
     email: newUser.email,
+    token: generateToken(newUser._id),
   });
 });
 

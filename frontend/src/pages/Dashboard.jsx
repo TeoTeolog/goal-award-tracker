@@ -24,13 +24,12 @@ function Dashboard() {
 
     if (!user) {
       navigate("/login");
+      return () => {
+        dispatch(reset());
+      };
     }
 
     dispatch(getGoals());
-
-    return () => {
-      dispatch(reset());
-    };
   }, [user, isError, navigate, dispatch]);
 
   if (isLoading) {
@@ -38,7 +37,7 @@ function Dashboard() {
   }
   return (
     <>
-      <section className="heading">Welcome {user.name}</section>
+      <section className="heading">Welcome {user && user.name}</section>
       <p>Make a goal</p>
       <GoalForm />
       {goals.length > 0 ? (

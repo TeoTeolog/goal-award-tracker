@@ -88,7 +88,11 @@ export const authSlice = createSlice({
         state.message = action.payload;
         state.user = null;
       })
+      .addCase(logout.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(logout.fulfilled, (state) => {
+        state.isLoading = false;
         state.user = null;
       });
   },
